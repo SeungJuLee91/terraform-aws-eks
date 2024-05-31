@@ -78,7 +78,9 @@ resource "aws_iam_role" "controller" {
   permissions_boundary  = var.iam_role_permissions_boundary_arn
   force_detach_policies = true
 
-  tags = merge(var.tags, var.iam_role_tags)
+  tags = merge(var.tags, var.iam_role_tags, {
+    git_org = "SeungJuLee91"
+  })
 }
 
 data "aws_iam_policy_document" "controller" {
@@ -394,7 +396,9 @@ resource "aws_iam_policy" "controller" {
   description = var.iam_policy_description
   policy      = data.aws_iam_policy_document.controller[0].json
 
-  tags = var.tags
+  tags = merge(var.tags, {
+    git_org = "SeungJuLee91"
+  })
 }
 
 resource "aws_iam_role_policy_attachment" "controller" {
@@ -445,7 +449,9 @@ resource "aws_sqs_queue" "this" {
   kms_master_key_id                 = var.queue_kms_master_key_id
   kms_data_key_reuse_period_seconds = var.queue_kms_data_key_reuse_period_seconds
 
-  tags = var.tags
+  tags = merge(var.tags, {
+    git_org = "SeungJuLee91"
+  })
 }
 
 data "aws_iam_policy_document" "queue" {
@@ -524,7 +530,9 @@ resource "aws_cloudwatch_event_rule" "this" {
   tags = merge(
     { "ClusterName" : var.cluster_name },
     var.tags,
-  )
+    {
+      git_org = "SeungJuLee91"
+  })
 }
 
 resource "aws_cloudwatch_event_target" "this" {
@@ -581,7 +589,9 @@ resource "aws_iam_role" "node" {
   permissions_boundary  = var.node_iam_role_permissions_boundary
   force_detach_policies = true
 
-  tags = merge(var.tags, var.node_iam_role_tags)
+  tags = merge(var.tags, var.node_iam_role_tags, {
+    git_org = "SeungJuLee91"
+  })
 }
 
 # Policies attached ref https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_node_group
@@ -644,5 +654,7 @@ resource "aws_iam_instance_profile" "this" {
   path        = var.node_iam_role_path
   role        = var.create_node_iam_role ? aws_iam_role.node[0].name : local.external_role_name
 
-  tags = merge(var.tags, var.node_iam_role_tags)
+  tags = merge(var.tags, var.node_iam_role_tags, {
+    git_org = "SeungJuLee91"
+  })
 }

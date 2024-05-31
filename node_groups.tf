@@ -77,7 +77,9 @@ resource "aws_iam_policy" "cni_ipv6_policy" {
   description = "IAM policy for EKS CNI to assign IPV6 addresses"
   policy      = data.aws_iam_policy_document.cni_ipv6_policy[0].json
 
-  tags = var.tags
+  tags = merge(var.tags, {
+    git_org = "SeungJuLee91"
+  })
 }
 
 ################################################################################
@@ -220,7 +222,9 @@ resource "aws_security_group" "node" {
       "kubernetes.io/cluster/${var.cluster_name}" = "owned"
     },
     var.node_security_group_tags
-  )
+    , {
+      git_org = "SeungJuLee91"
+  })
 
   lifecycle {
     create_before_destroy = true

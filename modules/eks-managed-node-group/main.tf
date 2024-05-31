@@ -319,7 +319,9 @@ resource "aws_launch_template" "this" {
   tags = merge(
     var.tags,
     var.launch_template_tags,
-  )
+    {
+      git_org = "SeungJuLee91"
+  })
 
   # Prevent premature access of policies by pods that
   # require permissions on create/destroy that depend on nodes
@@ -463,7 +465,9 @@ resource "aws_eks_node_group" "this" {
   tags = merge(
     var.tags,
     { Name = var.name }
-  )
+    , {
+      git_org = "SeungJuLee91"
+  })
 }
 
 ################################################################################
@@ -510,7 +514,9 @@ resource "aws_iam_role" "this" {
   permissions_boundary  = var.iam_role_permissions_boundary
   force_detach_policies = true
 
-  tags = merge(var.tags, var.iam_role_tags)
+  tags = merge(var.tags, var.iam_role_tags, {
+    git_org = "SeungJuLee91"
+  })
 }
 
 # Policies attached ref https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_node_group
@@ -545,7 +551,9 @@ resource "aws_placement_group" "this" {
   name     = "${var.cluster_name}-${var.name}"
   strategy = var.placement_group_strategy
 
-  tags = var.tags
+  tags = merge(var.tags, {
+    git_org = "SeungJuLee91"
+  })
 }
 
 ################################################################################

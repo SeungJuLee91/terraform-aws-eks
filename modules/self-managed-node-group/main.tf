@@ -464,7 +464,9 @@ resource "aws_launch_template" "this" {
   user_data              = module.user_data.user_data
   vpc_security_group_ids = length(local.network_interfaces) > 0 ? [] : local.security_group_ids
 
-  tags = var.tags
+  tags = merge(var.tags, {
+    git_org = "SeungJuLee91"
+  })
 
   # Prevent premature access of policies by pods that
   # require permissions on create/destroy that depend on nodes
@@ -820,7 +822,9 @@ resource "aws_iam_role" "this" {
   permissions_boundary  = var.iam_role_permissions_boundary
   force_detach_policies = true
 
-  tags = merge(var.tags, var.iam_role_tags)
+  tags = merge(var.tags, var.iam_role_tags, {
+    git_org = "SeungJuLee91"
+  })
 }
 
 # Policies attached ref https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_node_group
@@ -854,7 +858,9 @@ resource "aws_iam_instance_profile" "this" {
   name_prefix = var.iam_role_use_name_prefix ? "${local.iam_role_name}-" : null
   path        = var.iam_role_path
 
-  tags = merge(var.tags, var.iam_role_tags)
+  tags = merge(var.tags, var.iam_role_tags, {
+    git_org = "SeungJuLee91"
+  })
 
   lifecycle {
     create_before_destroy = true
@@ -871,7 +877,9 @@ resource "aws_placement_group" "this" {
   name     = "${var.cluster_name}-${var.name}"
   strategy = "cluster"
 
-  tags = var.tags
+  tags = merge(var.tags, {
+    git_org = "SeungJuLee91"
+  })
 }
 
 ################################################################################

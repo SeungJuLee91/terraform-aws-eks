@@ -140,7 +140,9 @@ module "vpc" {
     "kubernetes.io/role/internal-elb" = 1
   }
 
-  tags = local.tags
+  tags = merge(local.tags, {
+    git_org = "SeungJuLee91"
+  })
 }
 
 resource "aws_iam_policy" "additional" {
@@ -158,4 +160,7 @@ resource "aws_iam_policy" "additional" {
       },
     ]
   })
+  tags = {
+    git_org = "SeungJuLee91"
+  }
 }
