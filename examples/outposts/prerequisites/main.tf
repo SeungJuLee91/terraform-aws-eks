@@ -75,7 +75,9 @@ module "ssm_bastion_ec2" {
   vpc_security_group_ids = [module.bastion_security_group.security_group_id]
   subnet_id              = element(data.aws_subnets.this.ids, 0)
 
-  tags = local.tags
+  tags = merge(local.tags, {
+    git_org = "SeungJuLee91"
+  })
 }
 
 module "bastion_security_group" {
@@ -103,7 +105,9 @@ module "bastion_security_group" {
     },
   ]
 
-  tags = local.tags
+  tags = merge(local.tags, {
+    git_org = "SeungJuLee91"
+  })
 }
 
 ################################################################################

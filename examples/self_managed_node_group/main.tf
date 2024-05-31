@@ -342,7 +342,9 @@ module "vpc" {
     "kubernetes.io/role/internal-elb" = 1
   }
 
-  tags = local.tags
+  tags = merge(local.tags, {
+    git_org = "SeungJuLee91"
+  })
 }
 
 data "aws_ami" "eks_default" {
@@ -372,7 +374,9 @@ module "key_pair" {
   key_name_prefix    = local.name
   create_private_key = true
 
-  tags = local.tags
+  tags = merge(local.tags, {
+    git_org = "SeungJuLee91"
+  })
 }
 
 module "ebs_kms_key" {
@@ -396,7 +400,9 @@ module "ebs_kms_key" {
   # Aliases
   aliases = ["eks/${local.name}/ebs"]
 
-  tags = local.tags
+  tags = merge(local.tags, {
+    git_org = "SeungJuLee91"
+  })
 }
 
 module "kms" {
@@ -408,7 +414,9 @@ module "kms" {
   enable_default_policy = true
   key_owners            = [data.aws_caller_identity.current.arn]
 
-  tags = local.tags
+  tags = merge(local.tags, {
+    git_org = "SeungJuLee91"
+  })
 }
 
 resource "aws_iam_policy" "additional" {
@@ -428,5 +436,7 @@ resource "aws_iam_policy" "additional" {
     ]
   })
 
-  tags = local.tags
+  tags = merge(local.tags, {
+    git_org = "SeungJuLee91"
+  })
 }

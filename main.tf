@@ -87,7 +87,9 @@ resource "aws_eks_cluster" "this" {
     { terraform-aws-modules = "eks" },
     var.tags,
     var.cluster_tags,
-  )
+    {
+      git_org = "SeungJuLee91"
+  })
 
   timeouts {
     create = try(var.cluster_timeouts.create, null)
@@ -135,7 +137,9 @@ resource "aws_cloudwatch_log_group" "this" {
     var.tags,
     var.cloudwatch_log_group_tags,
     { Name = "/aws/eks/${var.cluster_name}/cluster" }
-  )
+    , {
+      git_org = "SeungJuLee91"
+  })
 }
 
 ################################################################################
@@ -252,7 +256,9 @@ module "kms" {
   tags = merge(
     { terraform-aws-modules = "eks" },
     var.tags,
-  )
+    {
+      git_org = "SeungJuLee91"
+  })
 }
 
 ################################################################################
@@ -291,7 +297,9 @@ resource "aws_security_group" "cluster" {
     var.tags,
     { "Name" = local.cluster_sg_name },
     var.cluster_security_group_tags
-  )
+    , {
+      git_org = "SeungJuLee91"
+  })
 
   lifecycle {
     create_before_destroy = true
@@ -350,7 +358,9 @@ resource "aws_iam_openid_connect_provider" "oidc_provider" {
   tags = merge(
     { Name = "${var.cluster_name}-eks-irsa" },
     var.tags
-  )
+    , {
+      git_org = "SeungJuLee91"
+  })
 }
 
 ################################################################################
@@ -425,7 +435,9 @@ resource "aws_iam_role" "this" {
     }
   }
 
-  tags = merge(var.tags, var.iam_role_tags)
+  tags = merge(var.tags, var.iam_role_tags, {
+    git_org = "SeungJuLee91"
+  })
 }
 
 # Policies attached ref https://docs.aws.amazon.com/eks/latest/userguide/service_IAM_role.html
@@ -480,7 +492,9 @@ resource "aws_iam_policy" "cluster_encryption" {
     ]
   })
 
-  tags = merge(var.tags, var.cluster_encryption_policy_tags)
+  tags = merge(var.tags, var.cluster_encryption_policy_tags, {
+    git_org = "SeungJuLee91"
+  })
 }
 
 ################################################################################
@@ -521,7 +535,9 @@ resource "aws_eks_addon" "this" {
     module.self_managed_node_group,
   ]
 
-  tags = merge(var.tags, try(each.value.tags, {}))
+  tags = merge(var.tags, try(each.value.tags, {}), {
+    git_org = "SeungJuLee91"
+  })
 }
 
 resource "aws_eks_addon" "before_compute" {
@@ -544,7 +560,9 @@ resource "aws_eks_addon" "before_compute" {
     delete = try(each.value.timeouts.delete, var.cluster_addons_timeouts.delete, null)
   }
 
-  tags = merge(var.tags, try(each.value.tags, {}))
+  tags = merge(var.tags, try(each.value.tags, {}), {
+    git_org = "SeungJuLee91"
+  })
 }
 
 ################################################################################
@@ -568,5 +586,7 @@ resource "aws_eks_identity_provider_config" "this" {
     username_prefix               = lookup(each.value, "username_prefix", null)
   }
 
-  tags = merge(var.tags, try(each.value.tags, {}))
+  tags = merge(var.tags, try(each.value.tags, {}), {
+    git_org = "SeungJuLee91"
+  })
 }

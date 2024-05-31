@@ -423,7 +423,9 @@ module "vpc" {
     "kubernetes.io/role/internal-elb" = 1
   }
 
-  tags = local.tags
+  tags = merge(local.tags, {
+    git_org = "SeungJuLee91"
+  })
 }
 
 module "ebs_kms_key" {
@@ -447,7 +449,9 @@ module "ebs_kms_key" {
   # Aliases
   aliases = ["eks/${local.name}/ebs"]
 
-  tags = local.tags
+  tags = merge(local.tags, {
+    git_org = "SeungJuLee91"
+  })
 }
 
 module "key_pair" {
@@ -457,7 +461,9 @@ module "key_pair" {
   key_name_prefix    = local.name
   create_private_key = true
 
-  tags = local.tags
+  tags = merge(local.tags, {
+    git_org = "SeungJuLee91"
+  })
 }
 
 resource "aws_security_group" "remote_access" {
@@ -481,7 +487,9 @@ resource "aws_security_group" "remote_access" {
     ipv6_cidr_blocks = ["::/0"]
   }
 
-  tags = merge(local.tags, { Name = "${local.name}-remote" })
+  tags = merge(local.tags, { Name = "${local.name}-remote" }, {
+    git_org = "SeungJuLee91"
+  })
 }
 
 resource "aws_iam_policy" "node_additional" {
@@ -501,7 +509,9 @@ resource "aws_iam_policy" "node_additional" {
     ]
   })
 
-  tags = local.tags
+  tags = merge(local.tags, {
+    git_org = "SeungJuLee91"
+  })
 }
 
 data "aws_ami" "eks_default" {
@@ -554,5 +564,7 @@ resource "aws_iam_role" "this" {
     ]
   })
 
-  tags = local.tags
+  tags = merge(local.tags, {
+    git_org = "SeungJuLee91"
+  })
 }
